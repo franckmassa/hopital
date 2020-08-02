@@ -13,7 +13,6 @@ class appointments extends database{
         parent::__construct();
     }
 
-// Exercice 5
     /**
      * Méthode  addAppointment pour récupérer le résultat de la requête
      * @return type
@@ -49,21 +48,6 @@ class appointments extends database{
         return $bool;
     }
 
-// Exercice 6
-    /**
-     * Méthode  getAppointmentsList pour récupérer le résultat de la requête
-     * @return type
-     */
-    /*public function getAppointmentsList() {
-        $result = array();
-        $PDOResult = $this->db->query('SELECT `appointments`.`id`, `appointments`.`dateHour`, `appointments`.`idPatients`, `patients`.`id`, `patients`.`lastname`, `patients`.`firstname` '
-                . 'FROM `appointments` INNER JOIN `patients` ON `appointments`.`id` = `patients`.`id`');
-        if (is_object($PDOResult)) {
-            $result = $PDOResult->fetchAll(PDO::FETCH_OBJ);
-        }
-        return $result;
-    }*/
-
     /**
      * Méthode pour afficher la liste des rendez-vous (Affichage liste rendez-vous)
      * @return string*/
@@ -87,18 +71,6 @@ class appointments extends database{
       return $isObjectResult;
       }
      
-     /* CORRECTION MAXIME
-     * public function getShowAppointmentsList() {
-      $isObjectResult = array();
-      $PDOResult = $this->db->query('SELECT `appointments`.`id`, `appointments`.`dateHour`, `patients`.`lastname`, `patients`.`firstname`, `appointments`.`idPatients` FROM `appointments` INNER JOIN `patients` ON `appointments`.`idPatients` = `patients`.`id`');
-      if (is_object($PDOResult)) {
-      $isObjectResult = $PDOResult->fetchAll(PDO::FETCH_OBJ);
-      }
-      return $isObjectResult;
-      }
-        */
-
-   // exercice 7
     public function getAppointmentById() {
         $query = 'SELECT `appointments`.`id`, DATE_FORMAT(`appointments`.`dateHour`, \'%Y-%m-%d\') AS `date`, DATE_FORMAT(`appointments`.`dateHour`, \'%H:%i\') AS `hour`, `appointments`.`idPatients` '
                 . 'FROM `appointments` '
@@ -112,7 +84,7 @@ class appointments extends database{
         }
         return $getAppointmentsDetails;
     }
-    // exercice 8
+    /
     public function updateAppointment() {
         $query = 'UPDATE `appointments` '
                 . 'SET `dateHour` = :dateHour, `idPatients` = :idPatients '
@@ -125,6 +97,7 @@ class appointments extends database{
         $updatePatient->bindValue(':id', $this->id, PDO::PARAM_INT);
         return $updatePatient->execute();
     }
+
     /**
      * Méthode getRendezVousInfo pour récupérer le résultat de la requête
      * @return type
@@ -143,7 +116,7 @@ class appointments extends database{
         return $result;
     }
     
-    //Exercice 10 (supprime une ligne rdv)
+    // supprime une ligne rdv
     public function deleteAppointment() {
         $PDOResult = $this->db->prepare('DELETE FROM `appointments`
          WHERE `id` = :id');

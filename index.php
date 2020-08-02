@@ -14,7 +14,7 @@
         <?php include 'controllers/controllerNavbar2.php'; ?>
         <div class="container "> 
              <div class="row">
-                <H1 class="col-md-12 text-center text-uppercase text-muted font-weight-bold">Hopital E2N</H1>
+                <H1 class="col-md-12 text-center text-uppercase text-muted font-weight-bold"> Hopital</H1>
             </div>
             <div class="row">
                 <div class="col-md-12 text-center p-5">
