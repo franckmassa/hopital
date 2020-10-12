@@ -44,9 +44,9 @@ class patients extends database
         return $insertPatient->execute();
     }
 
-    /** 
-     * Méthode getPatientsList pour récupérer le résultat de la requête pour la liste des patients
+    /** Méthode getPatientsList pour récupérer le résultat de la requête pour la liste des patients
      *  Afichage d'un tableau vide en cas d'erreur, pour plus de clareté pour l'utilisateur 
+     * La méthode permet d'accéder aux attributs ou propriétés de la classe par l'extérieur, en sécurité
      */
     public function getPatientsList()
     {
@@ -63,12 +63,12 @@ class patients extends database
     }
 
     /**
-     *  Méthode getProfilList pour récupérer le résultat de la requête pour le profil du patient
-     *  On prépare la requête qui retourne un objet
+     * Méthode getProfilList pour récupérer le résultat de la requête pour le profil du patient
+     * On prépare la requête qui retourne un objet
      */
     public function getProfilById()
     {
-        $PDOResult = $this->db->prepare('SELECT `id`, `lastname`, `firstname`, `birthdate`, `phone`, `mail` '
+        $PDOResult = $this->db->prepare('SELECT `id`, `lastname`, `firstname`, DATE_FORMAT(birthdate,\'%d/%m/%Y\') AS birthdate, `phone`, `mail` '
             . 'FROM `patients` '
             . 'WHERE `id` = :id'); // :id marqueur nominatif car id est une inconnue
         // bindvalue Associe une valeur à un paramètre (marqueur nominatif), this se réfère à tous les attributs de la classe
@@ -85,6 +85,11 @@ class patients extends database
         return $result;
     }
 
+    /**
+     * Mise à jour du profil du patients
+     *
+     * @return void
+     */
     public function updatePatientProfil()
     {
         $query = 'UPDATE `patients` SET `lastname` = :lastname, `firstname` = :firstname, `birthdate` = :birthdate, `phone` = :phone, `mail` = :mail WHERE `id` = :id';
@@ -98,6 +103,7 @@ class patients extends database
         return $modifyPatient->execute();
     }
 
+
     /**
      * Méthode pour supprimer un patients et son rendez-vous (suppression patients)
      * @return string
@@ -110,7 +116,29 @@ class patients extends database
         return $remove->execute();
     }
 
-    // Déclaration de la méthode findPatientByLastname($search)
+    /**
+     * Méthode findPatientByLastname pour rechercher un patient 
+     * @return type
+     */
+    //    public function findPatientByLastname($search) {
+    //        $findPatientList = array();
+    //        $findPatient = $this->db->prepare('SELECT `id`, `lastname`, `firstname` FROM `patients` WHERE `lastname` LIKE :lastname OR `firstname` LIKE :firstname');
+    //        //integrer la valeur de l'attribut $search dans le marqueur nominatif :lastname avec la fonction bindvalue.
+    //        $findPatient->bindValue(':lastname', '%' . $this->search . '%', PDO::PARAM_STR);
+    //        $findPatient->bindValue(':firstname', '%' . $this->search . '%', PDO::PARAM_STR);
+    //        if ($findPatient->execute()) {
+    //            $findPatientList = $findPatient->fetchAll(PDO::FETCH_OBJ);
+    //        }
+    //        return $findPatientList;
+           
+    //    }
+
+    /**
+     * Déclaration de la méthode findPatientByLastname($search)
+     *
+     * @param [type] $search
+     * @return void
+     */
     public function findPatientByLastname($search)
     {   //Déclaration du tableau vide $findPatientList
         $findPatientList = array();
@@ -120,7 +148,7 @@ class patients extends database
                 . 'FROM `patients` '
                 . 'WHERE `lastname` LIKE :search OR `firstname` LIKE :search ORDER BY `lastname`'
         );
-        //Récupération de la valeur de $search passée en parametre de la méthode dans la fonction bindValue() pour le filtrage, ajout des modulos
+        //Récupération de la valeur de $search passé en parametre de la méthode dans la fonction bindValue() pour le filtrage, ajout des modulos
         $findPatient->bindValue(':search', '%' . $search . '%', PDO::PARAM_STR);
         //Si $findPatient est éxécuté
         if ($findPatient->execute()) {   //Si $findPatient est un objet
@@ -140,7 +168,11 @@ class patients extends database
         return $findPatientList;
     }
 
-    // Exercice 13 (pagination)
+    /**
+     * pagination
+     *
+     * @return void
+     */
     public function numberOfResults()
     {
         $queryResult = $this->db->query('SELECT COUNT(`id`) AS countResults FROM `patients`');

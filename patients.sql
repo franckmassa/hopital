@@ -1,8 +1,8 @@
 #------------------------------------------------------------
 #        Script MySQL.
 #------------------------------------------------------------
-CREATE DATABASE IF NOT EXISTS `hopital` CHARACTER SET 'utf8';
-USE `hopital`;
+CREATE DATABASE IF NOT EXISTS `hospitalE2N` CHARACTER SET 'utf8';
+USE `hospitalE2N`;
 
 #------------------------------------------------------------
 # Table: patients

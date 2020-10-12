@@ -1,4 +1,5 @@
 <?php
+
 include 'models/appointments.php';
 
 if (isset($_GET['idrdv'])) {
